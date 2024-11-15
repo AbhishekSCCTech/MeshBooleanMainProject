@@ -15,18 +15,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\TriangulationSetOperations.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\TriangleSelection.h">
+    <ClInclude Include="headers\MeshOperations.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\TriangulationSetOperations.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TriangleSelection.cpp">
+    <ClCompile Include="src\MeshOperations.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

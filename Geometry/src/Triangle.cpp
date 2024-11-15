@@ -42,6 +42,8 @@ Point Triangle::Normal()
     return normal;
 }
 
+
+
 bool Triangle::operator==(const Triangle& other) const
 {
     return (p1 == other.p1 && p2 == other.p2 && p3 == other.p3);

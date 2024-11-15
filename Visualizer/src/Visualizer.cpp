@@ -6,8 +6,8 @@
 #include "OBJWriter.h"
 #include "STLWriter.h"
 #include "DataWriter.h"
-#include "TriangulationSetOperations.h"
 #include "Triangulation.h"
+#include "MeshOperations.h"
 
 
 Visualizer::Visualizer(QWidget* parent)
@@ -100,56 +100,6 @@ void  Visualizer::onLoadFileClick1()
     }
 }
 
-//void Visualizer::onTranslateClick()
-//{
-//    QFileDialog dialog(this);
-//
-//    dialog.setFileMode(QFileDialog::Directory);
-//
-//    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
-//        "/home",
-//        QFileDialog::ShowDirsOnly
-//        | QFileDialog::DontResolveSymlinks);
-//
-//
-//    if (inputFilePath.endsWith(".stl", Qt::CaseInsensitive))
-//    {
-//        QString exportFileName = dir + "/output.obj";
-//        Geometry::Matrix4x4 mat;
-//        Transformation::Transformation t;
-//        /*outputTriangulation = t.scaling(triangulation, mat);*/
-//        outputTriangulation = t.translation(triangulation, mat, 8.21017 - 4.51358 - 49.1144);
-//        /*outputTriangulation = t.rotationX(triangulation, mat);*/
-//        /*outputTriangulation = t.rotationX(triangulation, mat);*/
-//        ObjWriter writer;
-//        writer.Write(exportFileName.toStdString(), outputTriangulation);
-//
-//        // reload file to check and load in output renderer
-//        OBJReader reader;
-//        reader.read(exportFileName.toStdString(), outputTriangulation);
-//
-//        OpenGlWidget::Data data = convertTrianglulationToGraphicsObject(outputTriangulation);
-//        openglWidgetOutput->setData(data);
-//
-//    }
-//    else if (inputFilePath.endsWith(".obj", Qt::CaseInsensitive))
-//    {
-//        QString exportFileName = dir + "/output.stl";
-//        Geometry::Matrix4x4 mat;
-//        Transformation::Transformation t;
-//        outputTriangulation = t.translation(triangulation, mat, 8.21017 - 4.51358 - 49.1144);
-//        STLWriter writer;
-//        writer.Write(exportFileName.toStdString(), outputTriangulation);
-//
-//        // reload file to check and load in output renderer
-//        STLReader reader;
-//        reader.read(exportFileName.toStdString(), outputTriangulation);
-//
-//        OpenGlWidget::Data data = convertTrianglulationToGraphicsObject(outputTriangulation);
-//        openglWidgetOutput->setData(data);
-//    }
-//
-//}
 
 void Visualizer::onJoinClick()
 {
@@ -173,19 +123,49 @@ void Visualizer::onJoinClick()
 
         OBJReader reader;
         reader.read(exportFileName.toStdString(), outputTriangulation);
+       /* double selected1 = triangulation.UniqueNumbers[triangulation.Triangles[0].P1().X()];
+        double selected2 = triangulation.UniqueNumbers[triangulation.Triangles[0].P1().Y()];
+        double selected3 = triangulation.UniqueNumbers[triangulation.Triangles[0].P1().Z()];
+        triangulation = t.translation(triangulation, selected1, selected2, selected3);*/
 
         OpenGlWidget::Data data = convertTrianglulationToGraphicsObject(triangulation);
    
         OpenGlWidget::Data data2 = convertTrianglulationToGraphicsObject(triangulation1);
-        for (auto i : data.normals)
+       
+        Geometry::Triangle triangle1 = triangulation.Triangles[0];
+
+        Geometry::Triangle triangle2 = triangulation1.Triangles[0];
+
+
+        double ax = triangulation.UniqueNumbers[triangle1.Normal().X()], ay = triangulation.UniqueNumbers[triangle1.Normal().Y()], az = triangulation.UniqueNumbers[triangle1.Normal().Z()];
+        double bx = triangulation1.UniqueNumbers[triangle2.Normal().X()], by = triangulation1.UniqueNumbers[triangle2.Normal().Y()], bz = triangulation1.UniqueNumbers[triangle2.Normal().Z()];
+
+
+        Geometry::Point firstNormal = triangle1.Normal();
+        Geometry::Point secondNormal = triangle2.Normal();
+
+        // Get the angle between the normal and the x-axis using the updated function
+        //Geometry::MeshOperations mesh;
+        double angle1 = mesh.getAngleBetweenNormalAndXAxis(triangulation, firstNormal);
+        double angle2 = mesh.getAngleBetweenNormalAndXAxis(triangulation1, secondNormal);
+        TranslationTriangulation = t.translation(triangulation, -(mesh.AveragePoint(triangulation)[0]), -(mesh.AveragePoint(triangulation)[1]), -(mesh.AveragePoint(triangulation)[2]));
+        RotationTriangulation = t.rotation_x(TranslationTriangulation, -angle1);
+
+        TranslationTriangulation1 = t.translation(triangulation1, -(mesh.AveragePoint(triangulation1)[0]), -(mesh.AveragePoint(triangulation1)[1]), -(mesh.AveragePoint(triangulation1)[2]));
+        RotationTriangulation1 = t.rotation_x(TranslationTriangulation1, -angle2);
+
+        OpenGlWidget::Data data3 = convertTrianglulationToGraphicsObject(RotationTriangulation);
+        OpenGlWidget::Data data4 = convertTrianglulationToGraphicsObject(RotationTriangulation1);
+
+        for (auto i : data4.normals)
         {
-            data2.normals.append(i);
+            data3.normals.append(i);
         }
-        for (auto j : data.vertices)
+        for (auto j : data4.vertices)
         {
-            data2.vertices.append(j);
+            data3.vertices.append(j);
         }
-        openglWidgetOutput->setData(data2);
+        openglWidgetOutput->setData(data3);
     }
     else if (inputFilePath.endsWith(".obj", Qt::CaseInsensitive))
     {

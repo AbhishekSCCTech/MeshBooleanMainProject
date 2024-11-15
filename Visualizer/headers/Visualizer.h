@@ -8,6 +8,7 @@
 #include "Transformation.h"
 #include "OpenGlWidget.h"
 #include "OpenGlWidget1.h"
+#include "MeshOperations.h"
 #include "GraphicsSynchronizer.h"
 
 using namespace Geometry;
@@ -35,6 +36,14 @@ private:
     Triangulation triangulation;
     Triangulation triangulation1;
     Triangulation outputTriangulation;
+    Triangulation TranslationTriangulation;
+    Triangulation RotationTriangulation;
+    Triangulation ReverseRotationTriangulation;
+    Triangulation ReverseTranslationTriangulation;
+    Triangulation TranslationTriangulation1;
+    Triangulation RotationTriangulation1;
+    Triangulation ReverseRotationTriangulation1;
+    Triangulation ReverseTranslationTriangulation1;
 
     QPushButton* loadFile;
     QPushButton* loadFile1;
@@ -46,6 +55,7 @@ private:
     OpenGlWidget* openglWidgetOutput;
 
     GraphicsSynchronizer* graphicsSynchronizer;
+    MeshOperations mesh;
 
     QVector<GLfloat> vertices;
 

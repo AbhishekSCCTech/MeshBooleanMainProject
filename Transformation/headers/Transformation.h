@@ -1,8 +1,6 @@
 #pragma once
 #include "Triangulation.h"
 #include "Matrix4x4.h"
-#include <map>
-#include <cmath>
 namespace Transformation
 {
 	using namespace Geometry;
@@ -10,9 +8,10 @@ namespace Transformation
 	{
 	public:
 		bool operator()(double a, double b) const;
-		Triangulation scaling(Triangulation& triangulation, Geometry::Matrix4x4& matrix, double scalex = 2.0, double scaley = 2.0, double scalez = 1.0);
-		Triangulation translation(Triangulation& triangulation, Geometry::Matrix4x4& matrix, double tx = -35.74942, double ty = 34.95682, double tz = 28.57143);
-		Triangulation rotation(Triangulation& triangulation, Geometry::Matrix4x4& matrix, double anglex, double angley, double anglez);
-		/*Triangulation rotationX(Triangulation& triangulation, Geometry::Matrix4x4& matrix, double anglex=45.0, double angley, double anglez);*/
+		Triangulation scaling(Triangulation& triangulation, double scale_x = 2.0, double scale_y = 2.0, double scale_z = 1.0);
+		Triangulation translation(Triangulation& triangulation, double translate_x = 10.0, double translate_y = 10.0, double translate_z = 1.0);
+		Triangulation rotation_x(Triangulation& triangulation, double rotate_x = 0);
+		Triangulation rotation_y(Triangulation& triangulation, double rotate_x = 0);
+		Triangulation rotation_z(Triangulation& triangulation, double rotate_x = 0);
 	};
 }

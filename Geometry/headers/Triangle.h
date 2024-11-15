@@ -2,6 +2,8 @@
 #include <vector>
 #include "point.h"
 
+
+
 namespace Geometry
 {
     class Triangle
@@ -25,5 +27,7 @@ namespace Geometry
 
         std::vector<Point> Points();
         bool operator==(const Triangle& other) const;
+        
+
     };
 }

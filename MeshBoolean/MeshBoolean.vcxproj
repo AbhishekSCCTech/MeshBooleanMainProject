@@ -19,12 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\TriangleSelection.h" />
-    <ClInclude Include="headers\TriangulationSetOperations.h" />
+    <ClInclude Include="headers\MeshOperations.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\TriangleSelection.cpp" />
-    <ClCompile Include="src\TriangulationSetOperations.cpp" />
+    <ClCompile Include="src\MeshOperations.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
